@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ARQ.STUDIO - Arquitetura de alto padrão e design de interiores que transformam espaços em cenários de vida.">
+    <title>ARQ.STUDIO | Arquitetura & Interiores High-End</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Lato', 'sans-serif'],
+                    serif: ['Playfair Display', 'serif'],
+                },
+                extend: {
+                    colors: {
+                        'brand-gold': '#C5A059',
+                        'brand-gold-light': '#E6CBA0',
+                        'brand-dark': '#1C1917',
+                        'brand-gray': '#A8A29E',
+                    },
+                    letterSpacing: {
+                        'widest-xl': '.25em',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'slow-pulse': 'pulse 10s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Classes para o Lazy Load e Menu Mobile */
+        .mobile-menu-enter {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mobile-menu-enter-active {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        /* Estilo inicial da imagem antes de carregar (Blur + Opacidade 0) */
+        .lazy-reveal {
+            opacity: 0;
+            filter: blur(10px);
+            transform: scale(1.05);
+            transition: opacity 1s ease-out, filter 1s ease-out, transform 1.5s ease-out;
+            will-change: opacity, filter, transform;
+        }
+        
+        /* Estilo final da imagem carregada */
+        .lazy-loaded {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="font-sans text-brand-dark antialiased bg-stone-50 selection:bg-brand-gold selection:text-white">
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-transparent py-8">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div id="logo" class="text-2xl font-serif font-bold tracking-tighter text-white transition-colors duration-300 z-50 relative">
+                ARQ.STUDIO
+            </div>
+            
+            <div id="desktop-menu" class="hidden md:flex items-center space-x-10 text-sm font-medium tracking-widest uppercase text-stone-200 transition-colors duration-300">
+                <a href="#sobre" class="hover:text-brand-gold transition-colors text-xs">Sobre</a>
+                <a href="#portfolio" class="hover:text-brand-gold transition-colors text-xs">Portfólio</a>
+                <a href="#servicos" class="hover:text-brand-gold transition-colors text-xs">Expertise</a>
+                <a href="#depoimentos" class="hover:text-brand-gold transition-colors text-xs">Depoimentos</a>
+                
+                <button onclick="document.getElementById('contato').scrollIntoView({behavior: 'smooth'})" 
+                    id="cta-btn"
+                    class="px-8 py-3 border border-white/30 text-white hover:bg-white hover:text-brand-dark transition-all duration-500 uppercase text-xs tracking-widest font-bold">
+                    Agendar Reunião
+                </button>
+            </div>
+
+            <div class="md:hidden z-50 relative">
+                <button id="menu-btn" class="text-white focus:outline-none transition-colors duration-300">
+                    <i data-lucide="menu" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="mobile-menu-enter bg-white w-full absolute top-0 left-0 shadow-2xl pt-24 pb-8 z-40">
+            <div class="flex flex-col items-center space-y-8">
+                <a href="#sobre" class="mobile-link text-brand-dark font-bold uppercase tracking-widest text-sm hover:text-brand-gold">Sobre</a>
+                <a href="#portfolio" class="mobile-link text-brand-dark font-bold uppercase tracking-widest text-sm hover:text-brand-gold">Portfólio</a>
+                <a href="#servicos" class="mobile-link text-brand-dark font-bold uppercase tracking-widest text-sm hover:text-brand-gold">Expertise</a>
+                <a href="#depoimentos" class="mobile-link text-brand-dark font-bold uppercase tracking-widest text-sm hover:text-brand-gold">Depoimentos</a>
+                <a href="#contato" class="mobile-link text-brand-gold font-bold uppercase tracking-widest text-sm border-b-2 border-brand-gold pb-1">Iniciar Projeto</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden bg-brand-dark">
+        <div class="absolute inset-0 z-0">
+            <img data-src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" 
+                 alt="Interior Minimalista de Luxo" 
+                 class="lazy-reveal w-full h-full object-cover animate-slow-pulse"> 
+            <div class="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/40 to-stone-900/90"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center text-white mt-12">
+            <span class="block text-brand-gold tracking-widest-xl text-xs md:text-sm uppercase font-bold mb-6 animate-fade-in-up" style="animation-delay: 0.1s;">
+                Arquitetura & Design Atemporal
+            </span>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-medium leading-none mb-8 animate-fade-in-up">
+                O cenário perfeito <br/> para a sua <span class="italic text-brand-gold-light">história.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-stone-300 max-w-2xl mx-auto mb-12 font-light leading-relaxed animate-fade-in-up" style="animation-delay: 0.3s;">
+                Unimos estética refinada e funcionalidade inteligente para criar ambientes que não apenas impressionam, mas acolhem a sua essência.
+            </p>
+
+            <div class="flex flex-col md:flex-row justify-center gap-6 animate-fade-in-up" style="animation-delay: 0.5s;">
+                <button onclick="document.getElementById('contato').scrollIntoView({behavior: 'smooth'})" 
+                    class="group bg-brand-gold text-brand-dark px-10 py-4 text-sm font-bold uppercase tracking-widest hover:bg-white transition-all duration-500 ease-out shadow-[0_0_25px_rgba(197,160,89,0.4)] hover:shadow-[0_0_40px_rgba(255,255,255,0.6)]">
+                    Iniciar meu Projeto
+                </button>
+                <button onclick="document.getElementById('portfolio').scrollIntoView({behavior: 'smooth'})" 
+                    class="group border border-white/30 text-white px-10 py-4 text-sm font-medium uppercase tracking-widest hover:bg-white hover:text-brand-dark transition-all duration-500 ease-out backdrop-blur-sm">
+                    Ver Obras
+                </button>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50">
+            <i data-lucide="arrow-down" class="text-white w-6 h-6"></i>
+        </div>
+    </section>
+
+    <section id="sobre" class="py-32 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-20 items-center">
+                <div class="w-full md:w-1/2 relative group">
+                    <div class="absolute -top-6 -left-6 w-32 h-32 border-t border-l border-brand-gold opacity-50 transition-all duration-700 group-hover:-top-8 group-hover:-left-8"></div>
+                    
+                    <div class="relative overflow-hidden aspect-[3/4]">
+                        <img data-src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                             alt="Arquiteto Principal" 
+                             class="lazy-reveal w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-out">
+                    </div>
+
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 border-b border-r border-brand-dark opacity-50 transition-all duration-700 group-hover:-bottom-8 group-hover:-right-8"></div>
+                </div>
+                
+                <div class="w-full md:w-1/2 space-y-8">
+                    <span class="text-brand-gold font-bold tracking-widest-xl text-xs uppercase">O Estúdio</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-brand-dark leading-tight">
+                        Design com propósito e <br>identidade visual.
+                    </h2>
+                    <div class="h-px w-20 bg-brand-gold"></div>
+                    
+                    <p class="text-stone-600 leading-relaxed text-lg font-light">
+                        Acreditamos que a arquitetura vai muito além da construção; é sobre **criar atmosferas**. Minha metodologia une o rigor técnico da engenharia com a sensibilidade estética da arte contemporânea.
+                    </p>
+                    <p class="text-stone-600 leading-relaxed font-light">
+                        Especialistas em traduzir desejos complexos em **soluções visuais impactantes**. Utilizamos moodboards sensoriais e renderizações 3D ultra-realistas para garantir que você sinta seu novo espaço antes mesmo do primeiro tijolo ser assentado.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-8 pt-6">
+                        <div>
+                            <h4 class="font-serif text-2xl text-brand-dark mb-1">12+</h4>
+                            <p class="text-xs text-stone-500 uppercase tracking-widest">Anos de Experiência</p>
+                        </div>
+                        <div>
+                            <h4 class="font-serif text-2xl text-brand-dark mb-1">150+</h4>
+                            <p class="text-xs text-stone-500 uppercase tracking-widest">Projetos Entregues</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-32 bg-stone-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div>
+                    <span class="text-stone-400 font-bold tracking-widest-xl text-xs uppercase mb-4 block">Obras Selecionadas</span>
+                    <h2 class="text-4xl font-serif text-brand-dark">Nosso Portfólio</h2>
+                </div>
+                
+                <div class="flex flex-wrap gap-2" id="portfolio-tabs">
+                    <button class="tab-btn active px-6 py-2 text-xs font-bold uppercase tracking-widest transition-all bg-brand-dark text-white" data-filter="todos">Todos</button>
+                    <button class="tab-btn px-6 py-2 text-xs font-bold uppercase tracking-widest transition-all text-stone-500 hover:text-brand-gold" data-filter="residencial">Residencial</button>
+                    <button class="tab-btn px-6 py-2 text-xs font-bold uppercase tracking-widest transition-all text-stone-500 hover:text-brand-gold" data-filter="comercial">Comercial</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                <div class="project-item group cursor-pointer" data-category="residencial">
+                    <div class="relative overflow-hidden aspect-[4/5] mb-4 bg-stone-200">
+                        <img data-src="https://images.unsplash.com/photo-1600596542815-2495db9dc2c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                             class="lazy-reveal w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Casa Horizonte">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all duration-500"></div>
+                    </div>
+                    <h3 class="text-xl font-serif text-brand-dark group-hover:text-brand-gold transition-colors">Casa Horizonte</h3>
+                    <p class="text-xs text-stone-500 uppercase tracking-widest mt-1">Residencial / São Paulo</p>
+                </div>
+
+                <div class="project-item group cursor-pointer" data-category="comercial">
+                    <div class="relative overflow-hidden aspect-[4/5] mb-4 bg-stone-200">
+                        <img data-src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                             class="lazy-reveal w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="HQ Minimalista">
+                    </div>
+                    <h3 class="text-xl font-serif text-brand-dark group-hover:text-brand-gold transition-colors">HQ Tech Minimalista</h3>
+                    <p class="text-xs text-stone-500 uppercase tracking-widest mt-1">Comercial / Faria Lima</p>
+                </div>
+
+                <div class="project-item group cursor-pointer" data-category="residencial">
+                    <div class="relative overflow-hidden aspect-[4/5] mb-4 bg-stone-200">
+                        <img data-src="https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                             class="lazy-reveal w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Loft Industrial">
+                    </div>
+                    <h3 class="text-xl font-serif text-brand-dark group-hover:text-brand-gold transition-colors">Loft Industrial</h3>
+                    <p class="text-xs text-stone-500 uppercase tracking-widest mt-1">Residencial / Pinheiros</p>
+                </div>
+
+                <div class="project-item group cursor-pointer" data-category="residencial">
+                    <div class="relative overflow-hidden aspect-[4/5] mb-4 bg-stone-200">
+                        <div class="absolute top-4 right-4 bg-white text-brand-dark text-[10px] font-bold px-3 py-1 uppercase tracking-widest z-10">Retrofit</div>
+                        <img data-src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                             class="lazy-reveal w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Renovação Vila">
+                    </div>
+                    <h3 class="text-xl font-serif text-brand-dark group-hover:text-brand-gold transition-colors">Renovação Vila</h3>
+                    <p class="text-xs text-stone-500 uppercase tracking-widest mt-1">Residencial / Interior</p>
+                </div>
+                
+                 <div class="project-item group cursor-pointer" data-category="comercial">
+                    <div class="relative overflow-hidden aspect-[4/5] mb-4 bg-stone-200">
+                        <img data-src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                             class="lazy-reveal w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Hotel Boutique">
+                    </div>
+                    <h3 class="text-xl font-serif text-brand-dark group-hover:text-brand-gold transition-colors">Hotel Boutique</h3>
+                    <p class="text-xs text-stone-500 uppercase tracking-widest mt-1">Comercial / Campos</p>
+                </div>
+
+                 <div class="project-item group cursor-pointer" data-category="residencial">
+                    <div class="relative overflow-hidden aspect-[4/5] mb-4 bg-stone-200">
+                        <img data-src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                             class="lazy-reveal w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Apartamento Jardins">
+                    </div>
+                    <h3 class="text-xl font-serif text-brand-dark group-hover:text-brand-gold transition-colors">Apartamento Jardins</h3>
+                    <p class="text-xs text-stone-500 uppercase tracking-widest mt-1">Residencial / SP</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos" class="py-32 bg-brand-dark text-stone-100 border-t border-stone-800">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20">
+                <div class="max-w-2xl">
+                    <span class="text-brand-gold font-bold tracking-widest-xl text-xs uppercase mb-4 block">Nossa Expertise</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-white leading-snug">
+                        Soluções completas para <br/> elevar seu padrão de vida.
+                    </h2>
+                </div>
+                <p class="text-stone-400 max-w-md mt-6 md:mt-0 text-sm leading-loose border-l border-brand-gold/30 pl-6">
+                    Da concepção artística ao detalhamento técnico. Cuidamos de cada etapa para que sua única preocupação seja aproveitar o resultado.
+                </p>
+            </div>
+    
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-stone-800 border border-stone-800">
+                <div class="group relative bg-brand-dark p-10 hover:bg-[#24211f] transition-all duration-500">
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
+                        <i data-lucide="arrow-up-right" class="text-brand-gold w-6 h-6"></i>
+                    </div>
+                    <div class="mb-8 text-stone-500 group-hover:text-brand-gold transition-colors duration-500">
+                        <i data-lucide="home" class="w-10 h-10 stroke-[1.5]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif mb-4 text-white">Arquitetura de Alto Padrão</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed">
+                        Projetos que traduzem seu estilo de vida em traços concretos. Foco total em valorização do imóvel e conforto térmico/acústico.
+                    </p>
+                </div>
+    
+                <div class="group relative bg-brand-dark p-10 hover:bg-[#24211f] transition-all duration-500">
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
+                        <i data-lucide="arrow-up-right" class="text-brand-gold w-6 h-6"></i>
+                    </div>
+                    <div class="mb-8 text-stone-500 group-hover:text-brand-gold transition-colors duration-500">
+                        <i data-lucide="gem" class="w-10 h-10 stroke-[1.5]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif mb-4 text-white">Design de Interiores</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed">
+                        Curadoria exclusiva de mobiliário assinado, texturas nobres e obras de arte para compor ambientes com alma e sofisticação.
+                    </p>
+                </div>
+    
+                <div class="group relative bg-brand-dark p-10 hover:bg-[#24211f] transition-all duration-500">
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
+                        <i data-lucide="arrow-up-right" class="text-brand-gold w-6 h-6"></i>
+                    </div>
+                    <div class="mb-8 text-stone-500 group-hover:text-brand-gold transition-colors duration-500">
+                        <i data-lucide="file-check" class="w-10 h-10 stroke-[1.5]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif mb-4 text-white">Gestão de Obra</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed">
+                        Seu tempo é precioso. Gerenciamos fornecedores e cronogramas para garantir que a execução seja fiel ao projeto aprovado.
+                    </p>
+                </div>
+
+                 <div class="group relative bg-brand-dark p-10 hover:bg-[#24211f] transition-all duration-500">
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
+                        <i data-lucide="arrow-up-right" class="text-brand-gold w-6 h-6"></i>
+                    </div>
+                    <div class="mb-8 text-stone-500 group-hover:text-brand-gold transition-colors duration-500">
+                        <i data-lucide="lightbulb" class="w-10 h-10 stroke-[1.5]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif mb-4 text-white">Luminotécnica</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed">
+                        A luz certa para valorizar cada detalhe. Criamos cenas envolventes que transformam o clima da casa com um toque.
+                    </p>
+                </div>
+
+                 <div class="group relative bg-brand-dark p-10 hover:bg-[#24211f] transition-all duration-500">
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
+                        <i data-lucide="arrow-up-right" class="text-brand-gold w-6 h-6"></i>
+                    </div>
+                    <div class="mb-8 text-stone-500 group-hover:text-brand-gold transition-colors duration-500">
+                        <i data-lucide="monitor" class="w-10 h-10 stroke-[1.5]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif mb-4 text-white">Consultoria Online</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed">
+                        Para quem busca renovação ágil. Orientação técnica e estética para você transformar seu espaço onde estiver.
+                    </p>
+                </div>
+
+                 <div class="group relative bg-brand-dark p-10 hover:bg-[#24211f] transition-all duration-500">
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
+                        <i data-lucide="arrow-up-right" class="text-brand-gold w-6 h-6"></i>
+                    </div>
+                    <div class="mb-8 text-stone-500 group-hover:text-brand-gold transition-colors duration-500">
+                        <i data-lucide="layers" class="w-10 h-10 stroke-[1.5]"></i>
+                    </div>
+                    <h3 class="text-2xl font-serif mb-4 text-white">Renderização 3D</h3>
+                    <p class="text-stone-400 text-sm leading-relaxed">
+                        Visualização hiper-realista do futuro. Elimine riscos e visualize acabamentos antes de investir na obra.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="depoimentos" class="py-32 bg-stone-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-serif text-center text-brand-dark mb-16">O que dizem nossos clientes</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-10 shadow-sm border border-stone-200 relative hover:shadow-xl transition-shadow duration-500">
+                    <div class="text-6xl text-brand-gold/20 font-serif absolute top-4 right-6">"</div>
+                    <div class="flex items-center gap-1 text-brand-gold mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-stone-600 italic relative z-10 mb-6 text-sm leading-relaxed">
+                        A transformação da minha sala foi inacreditável. O uso de luz e texturas mudou completamente como nos sentimos em casa. É outro nível de conforto.
+                    </p>
+                    <div>
+                        <h4 class="font-bold text-brand-dark uppercase text-xs tracking-widest">Ana Souza</h4>
+                        <span class="text-[10px] text-stone-400 uppercase tracking-widest">Residencial</span>
+                    </div>
+                </div>
+                <div class="bg-white p-10 shadow-sm border border-stone-200 relative hover:shadow-xl transition-shadow duration-500">
+                    <div class="text-6xl text-brand-gold/20 font-serif absolute top-4 right-6">"</div>
+                     <div class="flex items-center gap-1 text-brand-gold mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-stone-600 italic relative z-10 mb-6 text-sm leading-relaxed">
+                        Profissionalismo ímpar. O projeto do escritório não apenas ficou lindo, mas otimizou nosso fluxo de trabalho. Nossos clientes sempre elogiam.
+                    </p>
+                    <div>
+                        <h4 class="font-bold text-brand-dark uppercase text-xs tracking-widest">Carlos Mendes</h4>
+                        <span class="text-[10px] text-stone-400 uppercase tracking-widest">Corporativo</span>
+                    </div>
+                </div>
+                <div class="bg-white p-10 shadow-sm border border-stone-200 relative hover:shadow-xl transition-shadow duration-500">
+                    <div class="text-6xl text-brand-gold/20 font-serif absolute top-4 right-6">"</div>
+                     <div class="flex items-center gap-1 text-brand-gold mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-stone-600 italic relative z-10 mb-6 text-sm leading-relaxed">
+                        Mesmo à distância, a consultoria foi precisa. O moodboard captou exatamente a essência minimalista que eu buscava, sem perder o aconchego.
+                    </p>
+                    <div>
+                        <h4 class="font-bold text-brand-dark uppercase text-xs tracking-widest">Mariana Costa</h4>
+                        <span class="text-[10px] text-stone-400 uppercase tracking-widest">Consultoria Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" class="py-24 bg-brand-gold relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h2 class="text-4xl md:text-5xl font-serif text-brand-dark mb-6 leading-tight">
+                Pronto para viver no espaço <br> dos seus sonhos?
+            </h2>
+            <p class="text-brand-dark/80 text-lg mb-10 max-w-2xl mx-auto font-medium">
+                Entre em contato hoje para agendar uma reunião inicial exclusiva e descubra o potencial do seu imóvel.
+            </p>
+            
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <button class="bg-brand-dark text-white px-10 py-5 uppercase tracking-widest font-bold hover:bg-stone-800 transition-all shadow-2xl text-sm">
+                    Solicitar Orçamento VIP
+                </button>
+                <button class="border border-brand-dark text-brand-dark px-10 py-5 uppercase tracking-widest hover:bg-brand-dark hover:text-white transition-colors flex items-center justify-center gap-2 text-sm font-bold">
+                    <i data-lucide="instagram" class="w-5 h-5"></i>
+                    Ver Instagram
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-stone-950 text-stone-400 py-16 border-t border-stone-900">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <h3 class="text-3xl font-serif text-white mb-2 tracking-tight">ARQ.STUDIO</h3>
+                <p class="text-xs uppercase tracking-widest text-brand-gold">Arquitetura & Interiores</p>
+            </div>
+            
+            <div class="flex space-x-8">
+                <a href="#" class="hover:text-brand-gold transition-colors"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                <a href="#" class="hover:text-brand-gold transition-colors"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+                <a href="#" class="hover:text-brand-gold transition-colors"><i data-lucide="mail" class="w-6 h-6"></i></a>
+            </div>
+            
+            <div class="text-xs text-stone-600 text-center md:text-right">
+                <p>&copy; 2024 ARQ.STUDIO.</p>
+                <p>Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Initialize Icons
+        lucide.createIcons();
+
+        // 2. Lazy Load & Animation Script (Performance)
+        document.addEventListener("DOMContentLoaded", function() {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if(img.dataset.src){
+                            img.src = img.dataset.src;
+                        }
+                        // Pequeno delay para garantir que carregou antes de tirar o blur
+                        img.onload = () => {
+                            img.classList.remove('lazy-reveal');
+                            img.classList.add('lazy-loaded');
+                        };
+                        // Fallback se já estiver em cache
+                        if (img.complete) {
+                            img.classList.remove('lazy-reveal');
+                            img.classList.add('lazy-loaded');
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: "50px 0px", // Carrega um pouco antes de aparecer
+                threshold: 0.01
+            });
+
+            document.querySelectorAll('.lazy-reveal').forEach(img => {
+                imageObserver.observe(img);
+            });
+        });
+
+        // 3. Navbar Logic
+        const navbar = document.getElementById('navbar');
+        const logo = document.getElementById('logo');
+        const menuItems = document.getElementById('desktop-menu');
+        const ctaBtn = document.getElementById('cta-btn');
+        const menuBtnIcon = document.getElementById('menu-icon');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.remove('bg-transparent', 'py-8');
+                navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                
+                logo.classList.remove('text-white');
+                logo.classList.add('text-brand-dark');
+
+                menuItems.classList.remove('text-stone-200');
+                menuItems.classList.add('text-stone-600');
+
+                ctaBtn.classList.remove('border-white/30', 'text-white', 'hover:bg-white', 'hover:text-brand-dark');
+                ctaBtn.classList.add('border-brand-dark', 'text-brand-dark', 'hover:bg-brand-dark', 'hover:text-white');
+                
+                // Update mobile icon color
+                document.getElementById('menu-btn').classList.remove('text-white');
+                document.getElementById('menu-btn').classList.add('text-brand-dark');
+            } else {
+                navbar.classList.add('bg-transparent', 'py-8');
+                navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                
+                logo.classList.add('text-white');
+                logo.classList.remove('text-brand-dark');
+
+                menuItems.classList.add('text-stone-200');
+                menuItems.classList.remove('text-stone-600');
+
+                ctaBtn.classList.add('border-white/30', 'text-white', 'hover:bg-white', 'hover:text-brand-dark');
+                ctaBtn.classList.remove('border-brand-dark', 'text-brand-dark', 'hover:bg-brand-dark', 'hover:text-white');
+                
+                 // Update mobile icon color
+                 document.getElementById('menu-btn').classList.add('text-white');
+                 document.getElementById('menu-btn').classList.remove('text-brand-dark');
+            }
+        });
+
+        // 4. Mobile Menu Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.add('mobile-menu-enter-active');
+                menuBtnIcon.setAttribute('data-lucide', 'x');
+                // Força cor escura no menu aberto se estiver no topo
+                if(window.scrollY < 50) {
+                     document.getElementById('menu-btn').classList.remove('text-white');
+                     document.getElementById('menu-btn').classList.add('text-brand-dark');
+                }
+            } else {
+                mobileMenu.classList.remove('mobile-menu-enter-active');
+                menuBtnIcon.setAttribute('data-lucide', 'menu');
+                 // Volta cor branca se estiver no topo
+                 if(window.scrollY < 50) {
+                     document.getElementById('menu-btn').classList.add('text-white');
+                     document.getElementById('menu-btn').classList.remove('text-brand-dark');
+                }
+            }
+            lucide.createIcons();
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => { if(isMenuOpen) toggleMenu(); });
+        });
+
+        // 5. Portfolio Filter Logic
+        const filterButtons = document.querySelectorAll('.tab-btn');
+        const projectItems = document.querySelectorAll('.project-item');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Style Updates
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-brand-dark', 'text-white');
+                    b.classList.add('text-stone-500');
+                });
+                btn.classList.add('bg-brand-dark', 'text-white');
+                btn.classList.remove('text-stone-500');
+
+                // Filter Logic
+                const filterValue = btn.getAttribute('data-filter');
+                
+                projectItems.forEach(item => {
+                    if (filterValue === 'todos' || item.getAttribute('data-category') === filterValue) {
+                        item.classList.remove('hidden');
+                        // Re-trigger animation (optional trick)
+                        item.style.animation = 'none';
+                        item.offsetHeight; /* trigger reflow */
+                        item.style.animation = null; 
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
